@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Covid-19</string>
+    <string name="country_name">Country:</string>
+    <string name="country_total_cases">Total Cases:</string>
+    <string name="country_new_cases">New Cases:</string>
+    <string name="country_total_deaths">Total Deaths:</string>
+    <string name="country_new_deaths">New Deaths:</string>
+    <string name="country_total_recovered">Total Recovered:</string>
+    <string name="country_active_cases">Active Cases:</string>
+    <string name="country_serious_critical">Serious Critical:</string>
+    <string name="app_sub_title">Coronavirus 2020</string>
+    <string name="text_view_error">It have had a error while the data was loading.</string>
+    <string name="button_view_error">Try it</string>
+    <string name="menu_title">About Me</string>
+    <string name="text_view_details_about_me">
+        My Name is Jorge Guzman, I did this app to share the Covid-19 situations around the world because we are all affect,
+        so the app is developing but if you want to colaborate is welcome just do a fork and contact me.
+    </string>
+</resources>
