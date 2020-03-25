@@ -11,9 +11,12 @@ interface CovidCountryContract {
         fun hideSwipeRefreshLayoutWithRecyclerView()
         fun showErrorView()
         fun hideErrorView()
+        fun showLoadingRetryA()
+        fun showLostNetworkRetryA()
     }
     interface Presenter{
-        fun loadCovidCountry()
+        fun loadDefaultCovidCountriesList()
+        fun retryLoadCovidCountriesList()
         fun attach(view:CovidCountryContract.View)
         fun detach()
     }

@@ -3,18 +3,16 @@ package com.softhk.covid19.ui.covidcountry
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.softhk.covid19.AboutMeActivity
 import com.softhk.covid19.R
 import com.softhk.covid19.di.CovidApp
 import com.softhk.covid19.domain.CovidCountry
 import kotlinx.android.synthetic.main.activity_covid_country.*
-import kotlinx.android.synthetic.main.activity_covid_country.view.*
 import javax.inject.Inject
 
 class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
@@ -25,10 +23,12 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
 
     private val swipeRefreshRv by lazy { swipeRefeshRecyclerView }
     private val viewError by lazy { errorViewLayout }
-    private val errorButton by lazy { errorButtonView}
+    private val errorButton by lazy { errorButtonView }
     private val adapter by lazy { CovidCountryAdapter(this) }
     private val recyclerView by lazy { covidCountryRecyclerView }
     private val covid19Toolbar by lazy { covidToolbar }
+    private val showLoadingRetryDataAnim by lazy { showLoadingRetryDataAnimation }
+    private val showLostNetworkAnim by lazy{showLostNetworkAnimation}
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,12 +62,22 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
         viewError.visibility = View.INVISIBLE
     }
 
+    override fun showLoadingRetryA() {
+        showLostNetworkAnim.visibility = View.VISIBLE
+        showLoadingRetryDataAnim.visibility = View.GONE
+    }
+
+    override fun showLostNetworkRetryA() {
+        showLoadingRetryDataAnim.visibility = View.VISIBLE
+        showLostNetworkAnim.visibility = View.GONE
+    }
+
     override fun onRefresh() {
-        presenter.loadCovidCountry()
+        presenter.loadDefaultCovidCountriesList()
     }
 
     override fun onClick(v: View?) {
-        loadData()
+        presenter.retryLoadCovidCountriesList()
     }
 
     override fun onResume() {
@@ -76,14 +86,14 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu,menu)
+        menuInflater.inflate(R.menu.menu, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.aboutMe -> {
-                var intent = Intent(this,AboutMeActivity::class.java)
+                var intent = Intent(this, AboutMeActivity::class.java)
                 startActivity(intent)
             }
         }
@@ -111,6 +121,6 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
 
     private fun loadData() {
         swipeRefreshRv.isRefreshing = true
-        presenter.loadCovidCountry()
+        presenter.loadDefaultCovidCountriesList()
     }
 }

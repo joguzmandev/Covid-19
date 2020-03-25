@@ -24,8 +24,8 @@
             android:id="@+id/swipeRefeshRecyclerView"
             android:layout_gravity="center_horizontal|center_vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
+            android:layout_height="match_parent"
+            >
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/covidCountryRecyclerView"
                 android:layout_width="match_parent"
@@ -41,8 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
             <TextView
                 android:id="@+id/errorTextView"
                 android:layout_width="match_parent"
@@ -60,6 +59,25 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/button_view_error"/>
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/showLoadingRetryDataAnimation"
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:visibility="gone"
+                app:lottie_rawRes="@raw/loader"/>
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/showLostNetworkAnimation"
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                android:visibility="gone"
+                app:lottie_rawRes="@raw/network_lost"/>
         </LinearLayout>
     </FrameLayout>
 
