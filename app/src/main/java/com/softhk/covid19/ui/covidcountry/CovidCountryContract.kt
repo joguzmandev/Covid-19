@@ -7,10 +7,8 @@ interface CovidCountryContract {
     interface View{
         fun setCovidCountryList(covidCountryList:List<CovidCountry>)
         fun hideSwipeRefresh(hide:Boolean)
-        fun showSwipeRefreshLayoutWithRecyclerView()
-        fun hideSwipeRefreshLayoutWithRecyclerView()
-        fun showErrorView()
-        fun hideErrorView()
+        fun swipeRefreshLayoutWithRecyclerViewVisible(visible:Boolean)
+        fun errorViewVisible(visible: Boolean)
         fun showLoadingRetryA()
         fun showLostNetworkRetryA()
     }

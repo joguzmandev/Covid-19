@@ -24,7 +24,6 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
 
     private lateinit var binding: ActivityCovidCountryBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -46,20 +45,12 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
         binding.swipeRefeshRecyclerView.isRefreshing = hide
     }
 
-    override fun showSwipeRefreshLayoutWithRecyclerView() {
-        binding.swipeRefeshRecyclerView.visibility = View.VISIBLE
+    override fun swipeRefreshLayoutWithRecyclerViewVisible(visible: Boolean) {
+        binding.swipeRefeshRecyclerView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
-    override fun hideSwipeRefreshLayoutWithRecyclerView() {
-        binding.swipeRefeshRecyclerView.visibility = View.INVISIBLE
-    }
-
-    override fun showErrorView() {
-        binding.errorViewLayout.visibility = View.VISIBLE
-    }
-
-    override fun hideErrorView() {
-        binding.errorViewLayout.visibility = View.INVISIBLE
+    override fun errorViewVisible(visible: Boolean) {
+        binding.errorViewLayout.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 
     override fun showLoadingRetryA() {
@@ -93,13 +84,12 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.aboutMe -> {
-                var intent = Intent(this, AboutMeActivity::class.java)
+                val intent = Intent(this, AboutMeActivity::class.java)
                 startActivity(intent)
             }
         }
         return true
     }
-
 
     private fun setUp() {
         //Set Dagger to activity

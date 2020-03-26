@@ -22,9 +22,9 @@ class CovidCountryPresenter constructor(private val covidCountryUseCases: CovidC
                 { items ->
                     view?.run {
                         with(this) {
-                            hideErrorView()
+                            errorViewVisible(false)
                             hideSwipeRefresh(false)
-                            showSwipeRefreshLayoutWithRecyclerView()
+                            swipeRefreshLayoutWithRecyclerViewVisible(true)
                             setCovidCountryList(items.sortedBy { it.country })
                         }
                     }
@@ -34,8 +34,8 @@ class CovidCountryPresenter constructor(private val covidCountryUseCases: CovidC
                     view?.run{
                         with(this){
                             hideSwipeRefresh(false)
-                            hideSwipeRefreshLayoutWithRecyclerView()
-                            showErrorView()
+                            swipeRefreshLayoutWithRecyclerViewVisible(true)
+                            errorViewVisible(true)
                         }
                     }
                     Log.e("RESULT-ACTIVITY", "WE HAVE A PROBLEM ${it.message}")
@@ -54,9 +54,9 @@ class CovidCountryPresenter constructor(private val covidCountryUseCases: CovidC
                 { items ->
                     view?.run {
                         with(this) {
-                            hideErrorView()
+                            errorViewVisible(false)
                             hideSwipeRefresh(false)
-                            showSwipeRefreshLayoutWithRecyclerView()
+                            swipeRefreshLayoutWithRecyclerViewVisible(true)
                             setCovidCountryList(items.sortedBy { it.country })
                         }
                     }
