@@ -71,8 +71,6 @@ class CovidCountryViewModel constructor(val covidCountryUseCases: CovidCountryUs
                         _swipeRefreshLayoutWithRecyclerViewVisible.value = true
                     }
                 }
-
-
             }
             .doOnError {
                when(_isRetry){

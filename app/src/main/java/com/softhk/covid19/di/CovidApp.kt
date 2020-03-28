@@ -12,7 +12,6 @@ class CovidApp : Application() {
         covidComponent = DaggerCovidComponent.builder()
             .covidMainModule(CovidMainModule())
             .build()
-
     }
 
     fun getCovidComponent() = covidComponent

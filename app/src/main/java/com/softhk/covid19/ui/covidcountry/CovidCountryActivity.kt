@@ -13,14 +13,13 @@ import com.softhk.covid19.AboutMeActivity
 import com.softhk.covid19.R
 import com.softhk.covid19.databinding.ActivityCovidCountryBinding
 import com.softhk.covid19.di.CovidApp
-import com.softhk.covid19.ui.covidcountry.di.ViewModelFactory
 import javax.inject.Inject
 
 class CovidCountryActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
     View.OnClickListener {
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: CovidCountryViewModelFactory
 
     private lateinit var viewModel: CovidCountryViewModel
 
