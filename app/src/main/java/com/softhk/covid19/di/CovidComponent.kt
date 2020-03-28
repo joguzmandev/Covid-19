@@ -5,6 +5,7 @@ import com.softhk.covid19.data.remote.di.RemoteModule
 import com.softhk.covid19.ui.covidcountry.di.CovidCountryUIModule
 import com.softhk.covid19.usecases.di.UseCasesModule
 import dagger.Component
+import dagger.android.AndroidInjector
 import javax.inject.Singleton
 
 @Singleton
@@ -13,7 +14,7 @@ import javax.inject.Singleton
     RemoteModule::class,
     UseCasesModule::class,
     CovidCountryUIModule::class])
-interface CovidComponent {
+interface CovidComponent : AndroidInjector<CovidCountryActivity>{
 
-    fun inject(covidCountryActivity: CovidCountryActivity)
+
 }

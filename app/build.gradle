@@ -32,7 +32,9 @@ android {
         }
     }
     buildToolsVersion '29.0.2'
-    viewBinding.enabled = true
+    viewBinding{
+        enabled = true
+    }
 }
 
 dependencies {
@@ -62,10 +64,15 @@ dependencies {
     implementation 'com.github.ar-android:AndroidSvgLoader:1.0.2'
 
     //Dagger2
+    implementation 'com.google.dagger:dagger:2.25.2'
     implementation 'com.google.dagger:dagger-android:2.25.2'
     kapt 'com.google.dagger:dagger-android-processor:2.25.2'
     kapt 'com.google.dagger:dagger-compiler:2.25.2'
 
     implementation 'com.airbnb.android:lottie:3.4.0'
 
+
+    //Vimodel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 }

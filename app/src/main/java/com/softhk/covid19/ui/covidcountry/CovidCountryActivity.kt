@@ -6,19 +6,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.softhk.covid19.AboutMeActivity
 import com.softhk.covid19.R
 import com.softhk.covid19.databinding.ActivityCovidCountryBinding
 import com.softhk.covid19.di.CovidApp
-import com.softhk.covid19.domain.CovidCountry
+import com.softhk.covid19.ui.covidcountry.di.ViewModelFactory
 import javax.inject.Inject
 
-class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
-    SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+class CovidCountryActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
+    View.OnClickListener {
 
     @Inject
-    lateinit var presenter: CovidCountryContract.Presenter
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private lateinit var viewModel: CovidCountryViewModel
 
     private val adapter by lazy { CovidCountryAdapter(this) }
 
@@ -35,45 +39,46 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
         setUp()
 
         binding.errorButtonView.setOnClickListener(this)
-    }
 
-    override fun setCovidCountryList(covidCountryList: List<CovidCountry>) {
-        adapter.addCovidCountriesList(covidCountryList)
-    }
+        viewModel = ViewModelProvider(this, viewModelFactory)[CovidCountryViewModel::class.java]
 
-    override fun hideSwipeRefresh(hide: Boolean) {
-        binding.swipeRefeshRecyclerView.isRefreshing = hide
-    }
+        viewModel.errorViewVisible.observe(this, Observer { visible ->
+            binding.errorViewLayout.visibility = if (visible) View.VISIBLE else View.GONE
+        })
 
-    override fun swipeRefreshLayoutWithRecyclerViewVisible(visible: Boolean) {
-        binding.swipeRefeshRecyclerView.visibility = if (visible) View.VISIBLE else View.INVISIBLE
-    }
+        viewModel.swipeRefreshLayoutWithRecyclerViewVisible.observe(this, Observer { visible ->
+            binding.swipeRefeshRecyclerView.visibility =
+                if (visible) View.VISIBLE else View.GONE
+        })
 
-    override fun errorViewVisible(visible: Boolean) {
-        binding.errorViewLayout.visibility = if (visible) View.VISIBLE else View.INVISIBLE
-    }
+        viewModel.hideSwipeRefresh.observe(this, Observer { hide ->
+            binding.swipeRefeshRecyclerView.isRefreshing = hide
+        })
 
-    override fun showLoadingRetryA() {
-        binding.showLostNetworkAnimation.visibility = View.VISIBLE
-        binding.showLoadingRetryDataAnimation.visibility = View.GONE
-    }
+        viewModel.showLoadingRetryDataAnimationVisible.observe(this, Observer { visible ->
+            binding.showLoadingRetryDataAnimation.visibility =
+                if (visible) View.VISIBLE else View.GONE
+        })
 
-    override fun showLostNetworkRetryA() {
-        binding.showLoadingRetryDataAnimation.visibility = View.VISIBLE
-        binding.showLostNetworkAnimation.visibility = View.GONE
-    }
+        viewModel.showLostNetworkAnimationVisible.observe(this, Observer { visible ->
+            binding.showLostNetworkAnimation.visibility =
+                if (visible) View.VISIBLE else View.GONE
+        })
 
-    override fun onRefresh() {
-        presenter.loadDefaultCovidCountriesList()
+        viewModel.covidCountryList.observe(this, Observer { covidCountryList ->
+            adapter.addCovidCountriesList(covidCountryList)
+        })
+
+        if (savedInstanceState == null)
+            loadData()
     }
 
     override fun onClick(v: View?) {
-        presenter.retryLoadCovidCountriesList()
+        loadDataWithRetryOrNot(true)
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadData()
+    override fun onRefresh() {
+        loadDataWithRetryOrNot(false)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -95,8 +100,6 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
         //Set Dagger to activity
         (application as CovidApp).getCovidComponent().inject(this)
 
-        //Attach Activity to Presenter
-        presenter.attach(this)
 
         with(binding) {
             //Set event to SwipeRefreshRv
@@ -108,12 +111,15 @@ class CovidCountryActivity : AppCompatActivity(), CovidCountryContract.View,
             //Set Adapter to RecyclerView
             covidCountryRecyclerView.adapter = adapter
         }
-
-
     }
 
     private fun loadData() {
         binding.swipeRefeshRecyclerView.isRefreshing = true
-        presenter.loadDefaultCovidCountriesList()
+        viewModel.loadDefaultCovidCountriesList()
+    }
+
+    private fun loadDataWithRetryOrNot(isRetry: Boolean) {
+        viewModel.isRetry(isRetry)
+        viewModel.loadDefaultCovidCountriesList()
     }
 }
