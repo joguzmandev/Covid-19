@@ -8,6 +8,6 @@ import retrofit2.http.Query
 interface ApiCovidCountryService {
     @GET("covid")
     fun getAllCovidCountries(@Query("fbclid")
-                             fbclid: String = "IwAR0IlQi5bgbxyYSCpgzxdUL3FPn32LW8zjqf3j5ITiT3SdqGOy-7o4RNquI")
+       fbclid: String = "IwAR0IlQi5bgbxyYSCpgzxdUL3FPn32LW8zjqf3j5ITiT3SdqGOy-7o4RNquI")
     :Observable<List<CovidCountry>>
 }
